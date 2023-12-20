@@ -1,26 +1,20 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import store from "../store";
-import axiosClient from '../axiosClient.js'
+import axiosClient from "../axiosClient.js";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-const ingredients = ref([])
+const ingredients = ref([]);
 
 onMounted(async () => {
-  const response = await axiosClient.get('/list.php?i=list')  
+  const response = await axiosClient.get("/list.php?i=list");
 
-  ingredients.value = response.data
-})
+  ingredients.value = response.data;
+});
 </script>
 
 <template>
   <div class="flex flex-col p-8">
-    <input
-      type="text"
-      class="rounded border-2 border-gray-200 w-full"
-      placeholder="Search for meals"
-    />
-
     <div class="flex justify-center mt-2 gap-2">
       <router-link
         class="bg-orange-400 rounded-md p-2 hover:bg-orange-600"
