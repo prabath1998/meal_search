@@ -1,14 +1,23 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import axiosClient from "../axiosClient";
 import store from "../store";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const keyword = ref("");
 const meals = computed(() => store.state.searchedMeals);
 
 function searchmeals() {
   store.dispatch("searchMeals", keyword.value);
 }
+
+onMounted(() => {
+  keyword.value = route.params.name
+  if(keyword.value){
+    searchmeals()
+  }
+})
 </script>
 
 <template>
@@ -28,18 +37,20 @@ function searchmeals() {
       :key="meal.idMeal"
       class="bg-white shadow rounded-xl"
     >
+    <router-link to="/">
       <img
-        class="rounded-t-xl h-48 w-full object-cover"
-        :src="meal.strMealThumb"
-        :alt="meal.strMeal"
-      />
+      class="rounded-t-xl h-48 w-full object-cover"
+      :src="meal.strMealThumb"
+      :alt="meal.strMeal"
+    />
+    </router-link>
       <div class="p-3">
         <h3 class="font-semibold">{{ meal.strMeal }}</h3>
         <p class="mb-4">lore</p>
-        <div>
-          <a class="px-3 py-2 rounded border border-red-600 hover:bg-red-500 hover:text-white transition-colors" :href="meal.strYoutube" target="_blank">Youtube</a>
+        <div class="flex items-center justify-between">
+          <a class="px-3 py-2 rounded border-2 bg-red-500 text-white hover:bg-red-700 hover:text-white transition-colors" :href="meal.strYoutube" target="_blank">Youtube</a>
           <!-- <a :href="meal.strYoutube" target="_blank">View</a> -->
-          <router-link to="/">View</router-link>
+          <!-- <router-link to="/" class="px-3 py-2 rounded border-2 hover:bg-indigo-500 hover:text-white transition-colors">View</router-link> -->
         </div>
       </div>
     </div>
